@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF Viewer</title>
+  <title>Responsive PDF Viewer</title>
   <!-- Link to Font Awesome -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
@@ -15,9 +15,9 @@
 
     body {
       font-family: Arial, sans-serif;
-      height: 100vh;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
 
     header {
@@ -54,9 +54,37 @@
     }
 
     iframe {
-      flex-grow: 1; /* Ensures iframe takes up remaining space */
       width: 100%;
       border: none;
+      flex-grow: 1;
+    }
+
+    /* Media query for larger screens (desktop) */
+    @media (min-width: 768px) {
+      body {
+        max-width: 1024px;
+        margin: 0 auto; /* Center the body */
+        border: 1px solid #ddd;
+      }
+
+      iframe {
+        height: 80vh; /* Limit the iframe height on desktops */
+      }
+    }
+
+    /* Media query for smaller screens (mobile) */
+    @media (max-width: 767px) {
+      body {
+        border: none;
+      }
+
+      header, section {
+        display: none; /* Hide header and section title for fullscreen mobile view */
+      }
+
+      iframe {
+        height: 100vh; /* Use full height on mobile */
+      }
     }
   </style>
 </head>
