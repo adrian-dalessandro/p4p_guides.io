@@ -4,25 +4,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PDF Viewer</title>
+  <!-- Link to Font Awesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
       height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f4f4f4;
+      flex-direction: column;
     }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+    }
+
+    header .org-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    header .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header .social-icons a {
+      text-decoration: none;
+      color: #000;
+      font-size: 1.5rem;
+    }
+
+    section {
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
     iframe {
+      flex-grow: 1; /* Ensures iframe takes up remaining space */
       width: 100%;
-      height: 100%;
       border: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-      <iframe src="https://drive.google.com/file/d/1TMrR899228Jd8sv4lj_sskDBjCzq3H5s/preview"></iframe>
-  </div>
+
+  <!-- Header Section -->
+  <header>
+    <div class="org-name">Organization Name</div>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/parentsforpalestineyvr" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Section Header -->
+  <section>PDF Section Title</section>
+
+  <!-- PDF Viewer -->
+  <iframe src="https://drive.google.com/file/d/1TMrR899228Jd8sv4lj_sskDBjCzq3H5s/preview"></iframe>
+
 </body>
 </html>
