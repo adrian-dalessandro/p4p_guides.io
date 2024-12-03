@@ -17,7 +17,7 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      height: 100vh;
     }
 
     header {
@@ -56,34 +56,23 @@
     iframe {
       width: 100%;
       border: none;
-      flex-grow: 1;
     }
 
     /* Media query for larger screens (desktop) */
     @media (min-width: 768px) {
-      body {
-        max-width: 1024px;
-        margin: 0 auto; /* Center the body */
-        border: 1px solid #ddd;
-      }
-
       iframe {
-        height: 80vh; /* Limit the iframe height on desktops */
+        height: 60vh; /* Make the iframe smaller for desktop */
       }
     }
 
     /* Media query for smaller screens (mobile) */
     @media (max-width: 767px) {
-      body {
-        border: none;
-      }
-
       header, section {
-        display: none; /* Hide header and section title for fullscreen mobile view */
+        display: none; /* Hide header and section for full-screen view */
       }
 
       iframe {
-        height: 100vh; /* Use full height on mobile */
+        height: 100vh; /* Full-screen height for mobile */
       }
     }
   </style>
