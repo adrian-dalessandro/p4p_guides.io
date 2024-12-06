@@ -2,16 +2,26 @@
 layout: default
 title: "Organization Directory"
 ---
+
 <section>
+  <div class="field filter-container">
+    <label class="label">Filter by Category:</label>
+    <div class="control">
+      <div class="select">
+        <select id="category-filter">
+          <option value="All">All</option>
+        </select>
+      </div>
+    </div>
+  </div>
   <div id="organization-container" class="columns is-multiline">
     <p class="has-text-centered column is-12">Loading data...</p>
   </div>
 </section>
 
 <script>
-  const SHEET_URL = "https://docs.google.com/spreadsheets/d/16AEH1MtzrZ-OQGR9r9UQR2eiO8QkpsT4Je0n_EAi_ac/gviz/tq?tqx=out:csv";
-
-  const fetchGoogleSheetData = async () => {
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/16AEH1MtzrZ-OQGR9r9UQR2eiO8QkpsT4Je0n_EAi_ac/gviz/tq?tqx=out:csv";
+const fetchGoogleSheetData = async () => {
   try {
     const response = await fetch(SHEET_URL);
     const csvText = await response.text();
@@ -24,24 +34,38 @@ title: "Organization Directory"
   }
 };
 
-  const renderOrganizations = async () => {
-    const container = document.getElementById("organization-container");
+const renderOrganizations = async () => {
+  const container = document.getElementById("organization-container");
+  const filterDropdown = document.getElementById("category-filter");
+  container.innerHTML = "";
+  const data = await fetchGoogleSheetData();
+
+  if (!data || data.length < 2) {
+    container.innerHTML = `<p class="has-text-centered has-text-danger">Failed to load data.</p>`;
+    return;
+  }
+
+  const [headers, ...rows] = data;
+  const categories = {};
+  rows.forEach(([orgName, website, category, description]) => {
+    if (!categories[category]) categories[category] = [];
+    categories[category].push({ orgName, website, description });
+  });
+
+  // Populate the filter dropdown
+  Object.keys(categories).forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    filterDropdown.appendChild(option);
+  });
+
+  // Render all organizations by default
+  const renderByCategory = (selectedCategory) => {
     container.innerHTML = "";
-    const data = await fetchGoogleSheetData();
+    const filteredCategories = selectedCategory === "All" ? categories : { [selectedCategory]: categories[selectedCategory] };
 
-    if (!data || data.length < 2) {
-      container.innerHTML = `<p class="has-text-centered has-text-danger">Failed to load data.</p>`;
-      return;
-    }
-
-    const [headers, ...rows] = data;
-    const categories = {};
-    rows.forEach(([orgName, website, category, description]) => {
-      if (!categories[category]) categories[category] = [];
-      categories[category].push({ orgName, website, description });
-    });
-
-    Object.entries(categories).forEach(([category, items]) => {
+    Object.entries(filteredCategories).forEach(([category, items]) => {
       const categorySection = document.createElement("section");
       categorySection.classList.add("column", "is-12", "mb-6");
 
@@ -65,5 +89,16 @@ title: "Organization Directory"
     });
   };
 
-  renderOrganizations();
+  // Initial render
+  renderByCategory("All");
+
+  // Add event listener for filtering
+  filterDropdown.addEventListener("change", (e) => {
+    const selectedCategory = e.target.value;
+    renderByCategory(selectedCategory);
+  });
+};
+
+renderOrganizations();
+
 </script>
