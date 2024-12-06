@@ -1,106 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parents for Palestine Guidesr</title>
-  <!-- Link to Font Awesome -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+---
+layout: default
+title: "Organization Directory"
+---
+<section>
+  <div id="organization-container" class="columns is-multiline">
+    <p class="has-text-centered column is-12">Loading data...</p>
+  </div>
+</section>
+
+<script>
+  const SHEET_URL = "https://docs.google.com/spreadsheets/d/16AEH1MtzrZ-OQGR9r9UQR2eiO8QkpsT4Je0n_EAi_ac/gviz/tq?tqx=out:csv";
+
+  const fetchGoogleSheetData = async () => {
+  try {
+    const response = await fetch(SHEET_URL);
+    const csvText = await response.text();
+    const data = csvText
+      .split("\n")
+      .map((row) => row.split(",").map((cell) => cell.replace(/^"|"$/g, ""))); // Remove quotes
+    return data;
+  } catch (error) {
+    console.error("Error fetching Google Sheet data:", error);
+  }
+};
+
+  const renderOrganizations = async () => {
+    const container = document.getElementById("organization-container");
+    container.innerHTML = "";
+    const data = await fetchGoogleSheetData();
+
+    if (!data || data.length < 2) {
+      container.innerHTML = `<p class="has-text-centered has-text-danger">Failed to load data.</p>`;
+      return;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center; /* Center content on desktop */
-      height: 100vh;
-    }
+    const [headers, ...rows] = data;
+    const categories = {};
+    rows.forEach(([orgName, website, category, description]) => {
+      if (!categories[category]) categories[category] = [];
+      categories[category].push({ orgName, website, description });
+    });
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 10px 20px;
-      background-color: #f8f8f8;
-      border-bottom: 1px solid #ddd;
-    }
+    Object.entries(categories).forEach(([category, items]) => {
+      const categorySection = document.createElement("section");
+      categorySection.classList.add("column", "is-12", "mb-6");
 
-    header .org-name {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
+      const categoryTitle = `<h2 class="title is-4">${category}</h2>`;
+      const cards = items
+        .map(
+          ({ orgName, website, description }) => `
+          <div class="card mb-4" style="padding: 1rem; width: 100%;">
+            <div class="card-content">
+              <p class="title is-5">${orgName}</p>
+              ${website ? `<p><a href="${website}" target="_blank">${website}</a></p>` : ""}
+              <p class="content">${description}</p>
+            </div>
+          </div>
+        `
+        )
+        .join("");
 
-    header .social-icons {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+      categorySection.innerHTML = `${categoryTitle}${cards}`;
+      container.appendChild(categorySection);
+    });
+  };
 
-    header .social-icons a {
-      text-decoration: none;
-      color: #000;
-      font-size: 1.5rem;
-    }
-
-    section {
-      width: 100%;
-      padding: 10px 20px;
-      background-color: #f4f4f4;
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    iframe {
-      border: none;
-    }
-
-    /* Default for all screens */
-    iframe {
-      width: 100%;
-      height: 100%;
-      flex-grow: 1; /* Fills the available space */
-    }
-
-    /* Media query for larger screens (desktop) */
-    @media (min-width: 768px) {
-      iframe {
-        width: 50%; /* Set the iframe width to half the screen width on desktop */
-      }
-    }
-
-    /* Media query for smaller screens (mobile) */
-    @media (max-width: 767px) {
-      header, section {
-        display: none; /* Hide header and section for full-screen view */
-      }
-
-      iframe {
-        width: 100%; /* Full width for mobile */
-        height: 100vh; /* Full-screen height for mobile */
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- Header Section -->
-  <header>
-    <div class="org-name">Parents for Palestine</div>
-  </header>
-
-  <!-- Section Header -->
-  <section>2024 Ethical Shopping Guide -- Vancouver</section>
-
-  <!-- PDF Viewer -->
-  <iframe src="https://drive.google.com/file/d/1TMrR899228Jd8sv4lj_sskDBjCzq3H5s/preview"></iframe>
-
-</body>
-</html>
-
-
+  renderOrganizations();
+</script>

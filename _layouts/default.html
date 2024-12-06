@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: "Organization Directory" }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<header class="navbar is-dark mb-4">
+    <div class="container">
+      <div class="navbar-brand">
+        <h1 class="navbar-item title is-4 has-text-white" style="font-family: 'Roboto', sans-serif; ">
+          <span>{{ site.organization_name | default: "Organization Directory" }}</span>
+        </h1>
+        <a href="https://www.instagram.com/YOUR_INSTAGRAM_PAGE" target="_blank" class="navbar-item has-text-white">
+          <i class="fab fa-instagram" style="font-size: 1.5rem;"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+    <section class="section">
+        <div class="container">
+          <h2 class="title is-5" style="font-family: 'Roboto', sans-serif; text-align: left;">
+            Welcome to the {{ site.guide_name | default: "Organization Directory" }}
+          </h2>
+          <p class="subtitle is-6 has-text-left">
+            This guide features businesses we have relationships with, those that have supported us, or those we are aware of and believe align with our values. It is not an exhaustive list but a reflection of the connections and trust we’ve built within the local Vancouver community.
+            Importantly, we are prioritizing and amplifying businesses that have taken a stand against injustice, particularly those actively opposing the genocide in Gaza and showing solidarity with Palestinians. By supporting these businesses, we aim to uphold values of justice, human rights, and ethical responsibility.
+            If you know of a business that shares these values and deserves to be included, please reach out to us. Let’s continue to build a stronger, more compassionate network together.
+
+          </p>
+        </div>
+      </section>
+  <main class="container">
+    {{ content }}
+  </main>
+  <footer class="footer has-background-light mt-6">
+  </footer>
+</body>
+</html>

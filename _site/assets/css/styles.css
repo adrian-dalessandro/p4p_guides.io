@@ -1,0 +1,47 @@
+body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .navbar {
+    padding: 1rem;
+  }
+  
+  .card {
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+    margin: 0.5rem 0;
+    border-radius: 5px;
+  }
+  
+  #organization-container {
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .card {
+      width: 100%;
+      margin: 0.5rem auto;
+    }
+  }
+
+  .navbar-brand {
+    display: flex;
+    align-items: left; /* Align items vertically */
+    justify-content: left; /* Center content horizontally */
+  }
+  
+  .navbar-item.title {
+    margin: 0; /* Remove extra margins */
+  }
+  
+  .navbar-item i {
+    font-size: 1.5rem; /* Adjust icon size */
+    vertical-align: middle; /* Align icon vertically */
+    margin-left: 0.5rem; /* Add spacing between text and icon */
+  }
+
+  .navbar {
+    padding: 0.1rem 0.5rem; /* Reduce top and bottom padding */
+  }
+  
+  
