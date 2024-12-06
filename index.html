@@ -3,45 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>PDF Viewer</title>
+  <title>Parents for Palestine Guidesr</title>
+  <!-- Link to Font Awesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
+      align-items: center; /* Center content on desktop */
       height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px 20px;
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+    }
+
+    header .org-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    header .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header .social-icons a {
+      text-decoration: none;
+      color: #000;
+      font-size: 1.5rem;
+    }
+
+    section {
+      width: 100%;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+      font-size: 1.2rem;
+      font-weight: bold;
       text-align: center;
     }
-    .container {
-      max-width: 90%;
-      width: 800px;
-    }
+
     iframe {
-      width: 100%;
-      height: calc(100vh - 50px);
       border: none;
     }
-    .download-link {
-      margin-top: 10px;
-      display: block;
-      font-size: 16px;
-      color: #007BFF;
-      text-decoration: none;
+
+    /* Default for all screens */
+    iframe {
+      width: 100%;
+      height: 100%;
+      flex-grow: 1; /* Fills the available space */
     }
-    .download-link:hover {
-      text-decoration: underline;
+
+    /* Media query for larger screens (desktop) */
+    @media (min-width: 768px) {
+      iframe {
+        width: 50%; /* Set the iframe width to half the screen width on desktop */
+      }
+    }
+
+    /* Media query for smaller screens (mobile) */
+    @media (max-width: 767px) {
+      header, section {
+        display: none; /* Hide header and section for full-screen view */
+      }
+
+      iframe {
+        width: 100%; /* Full width for mobile */
+        height: 100vh; /* Full-screen height for mobile */
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <iframe src="P4P Shopping Guide.pdf" title="PDF Viewer"></iframe>
-    <a href="P4P Shopping Guide.pdf" class="download-link" download>Download the PDF</a>
-  </div>
+  <!-- Header Section -->
+  <header>
+    <div class="org-name">Parents for Palestine</div>
+  </header>
+
+  <!-- Section Header -->
+  <section>2024 Ethical Shopping Guide -- Vancouver</section>
+
+  <!-- PDF Viewer -->
+  <iframe src="https://drive.google.com/file/d/1TMrR899228Jd8sv4lj_sskDBjCzq3H5s/preview"></iframe>
+
 </body>
 </html>
+
+
