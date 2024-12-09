@@ -19,15 +19,18 @@ title: "Organization Directory"
   </div>
 </section>
 
+<!-- Script for Loading and Filtering Data -->
 <script>
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/16AEH1MtzrZ-OQGR9r9UQR2eiO8QkpsT4Je0n_EAi_ac/gviz/tq?tqx=out:csv";
+ const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQE_kqs85dJVkA2PoFrPSrbmk84bFu6ieq-8OMOSwPt8tb0f1xZ9hW98Z-7teNYfwGKD-6VDNpBKG9D/pub?output=tsv";
+
+
 const fetchGoogleSheetData = async () => {
   try {
     const response = await fetch(SHEET_URL);
     const csvText = await response.text();
     const data = csvText
       .split("\n")
-      .map((row) => row.split(",").map((cell) => cell.replace(/^"|"$/g, ""))); // Remove quotes
+      .map((row) => row.split("\t").map((cell) => cell.replace(/^"|"$/g, ""))); // Remove quotes
     return data;
   } catch (error) {
     console.error("Error fetching Google Sheet data:", error);
@@ -47,10 +50,11 @@ const renderOrganizations = async () => {
 
   const [headers, ...rows] = data;
   const categories = {};
-  rows.forEach(([orgName, website, category, description]) => {
-    if (!categories[category]) categories[category] = [];
-    categories[category].push({ orgName, website, description });
-  });
+  rows.forEach((row) => {
+  const [orgName, website, instagram, address, category, description] = row;
+  if (!categories[category]) categories[category] = [];
+  categories[category].push({ orgName, website, instagram, address, description });
+});
 
   // Populate the filter dropdown
   Object.keys(categories).forEach((category) => {
@@ -60,7 +64,7 @@ const renderOrganizations = async () => {
     filterDropdown.appendChild(option);
   });
 
-  // Render all organizations by default
+  // Render all organizations by category
   const renderByCategory = (selectedCategory) => {
     container.innerHTML = "";
     const filteredCategories = selectedCategory === "All" ? categories : { [selectedCategory]: categories[selectedCategory] };
@@ -72,15 +76,32 @@ const renderOrganizations = async () => {
       const categoryTitle = `<h2 class="title is-4">${category}</h2>`;
       const cards = items
         .map(
-          ({ orgName, website, description }) => `
-          <div class="card mb-4" style="padding: 1rem; width: 100%;">
-            <div class="card-content">
-              <p class="title is-5">${orgName}</p>
-              ${website ? `<p><a href="${website}" target="_blank">${website}</a></p>` : ""}
-              <p class="content">${description}</p>
+          ({ orgName, website, instagram, address, description }) => `
+            <div class="card mb-4" style="padding: 1rem; width: 100%;">
+              <div class="columns is-vcentered">
+                <!-- Left Column: Picture -->
+                <!-- Right Column: Organization Details -->
+                <div class="column is-12">
+                  <p class="title is-5">
+                    ${
+                      website
+                        ? `<a href="${website}" target="_blank" style="text-decoration: none; color: inherit;">${orgName}</a>`
+                        : `${orgName}`
+                    }
+                    ${
+                      instagram
+                        ? `<a href="${instagram}" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram" style="margin-left: 10px; font-size: 1.25rem;"></i>
+                          </a>`
+                        : ""
+                    }
+                  </p>
+                  ${address ? `<p class="subtitle is-6">${address}</p>` : ""}
+                  <p class="content">${description}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        `
+          `
         )
         .join("");
 

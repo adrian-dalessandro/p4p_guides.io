@@ -50,4 +50,30 @@ body {
     padding: 0.1rem 0.5rem; /* Reduce top and bottom padding */
   }
   
+  .icons {
+    margin-top: 0.5rem;
+  }
   
+  .icons i {
+    font-size: 1.25rem;
+    color: #4a4a4a;
+    transition: color 0.3s ease;
+    margin-right: 0.5rem;
+  }
+  
+  .icons i:hover {
+    color: #3273dc;
+  }
+  
+  .image img {
+    border-radius: 5px; /* Rounded corners for images */
+  }
+  
+  .fab.fa-instagram {
+    color: #e4405f; /* Instagram brand color */
+    transition: color 0.3s ease;
+  }
+  
+  .fab.fa-instagram:hover {
+    color: #d6249f; /* Hover effect for Instagram icon */
+  }
